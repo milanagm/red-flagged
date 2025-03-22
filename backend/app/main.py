@@ -1,25 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import upload, analyze
+from .routers import analyze, analyzers
 
 app = FastAPI(
     title="WhatsApp Chat Analyzer",
     description="API for analyzing WhatsApp chats with different personality tests",
     version="0.1.0",
 )
-
 # CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=False,  # Must be False when allow_origins=["*"]
+    allow_methods=["GET", "OPTIONS", "PATCH", "DELETE", "POST", "PUT"],
+    allow_headers=["*"],  # Simplify by allowing all headers
 )
 
 # Include routers
-app.include_router(upload.router, prefix="/api", tags=["upload"])
 app.include_router(analyze.router, prefix="/api", tags=["analysis"])
+app.include_router(analyzers.router, prefix="/api", tags=["analyzers"])
 
 
 @app.get("/health")
