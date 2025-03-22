@@ -33,13 +33,12 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background to-secondary/30">
       <div className="w-full max-w-md animate-fade-in">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">PersonaChat</h1>
-          <p className="text-muted-foreground mt-2">Discover your chat personality</p>
+          <h1 className="text-3xl font-bold tracking-tight">Get Red Flagged!</h1>
         </div>
         
         <Card className="glassmorphism shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">Welcome back</CardTitle>
+            <CardTitle className="text-2xl">Login here :)</CardTitle>
             <CardDescription>Sign in to your account to continue</CardDescription>
           </CardHeader>
           

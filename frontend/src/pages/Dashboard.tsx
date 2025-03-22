@@ -97,7 +97,7 @@ const Dashboard = () => {
       <header className="border-b backdrop-blur-sm bg-background/70 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight">PersonaChat</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Get Red Flagged!</h1>
           </div>
           
           <div className="flex items-center gap-4">
@@ -134,9 +134,9 @@ const Dashboard = () => {
           
           <TabsContent value="upload" className="space-y-8 animate-fade-in">
             <div className="max-w-2xl mx-auto text-center space-y-4">
-              <h2 className="text-3xl font-bold tracking-tight">Upload your WhatsApp chat</h2>
+              <h2 className="text-3xl font-bold tracking-tight text-blue">Upload your Chat here!</h2>
               <p className="text-lg text-muted-foreground">
-                We'll analyze your chat and create a personality-based avatar just for you
+                Let the magic happen here!
               </p>
             </div>
             
