@@ -17,12 +17,12 @@ async def list_analyzers():
             {
                 "id": "hogwarts",
                 "name": "Hogwarts House Sorting",
-                "description": "Determines which Hogwarts house best matches the chat participant's personality",
+                "description": "Assess your Hogwarts house",
             },
             {
                 "id": "red_flag",
                 "name": "Red Flag Analysis",
-                "description": "Analyzes the chat for potential red flags and concerning patterns",
+                "description": "Analyze your red flags",
             },
         ]
     }
