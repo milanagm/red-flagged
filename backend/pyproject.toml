@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "red-flagged"
+version = "0.1.0"
+description = ""
+authors = ["leoniewgnr <leonie.wagner@jua.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+openai = "^1.68.2"
+fastapi = "^0.115.11"
+uvicorn = "^0.34.0"
+python-multipart = "^0.0.20"
+pydantic = "^2.10.6"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-exec-plugin.commands]
+format = "ruff format . && ruff check --fix ."
