@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #6D28D9;
+  --primary-dark: #5B21B6;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white/80 backdrop-blur-sm;
+  }
+  
+  .btn-primary {
+    @apply w-full py-2 px-4 bg-primary text-white font-semibold rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .card {
+    @apply bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-lg max-w-md w-full mx-auto;
+  }
+
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-md rounded-lg shadow-xl border border-white/20;
+  }
+
+  .top-nav {
+    @apply bg-white/40 backdrop-blur-sm p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50;
+  }
+
+  .select-field {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary bg-white/80 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .upload-zone {
+    @apply border-2 border-dashed rounded-lg p-8 text-center transition-colors duration-200 ease-in-out bg-white/80 backdrop-blur-sm hover:border-primary hover:bg-white/90;
+  }
+
+  .error-message {
+    @apply bg-red-50/90 backdrop-blur-sm border border-red-200 text-red-600 px-4 py-3 rounded-md;
+  }
+}
