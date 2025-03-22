@@ -151,12 +151,12 @@ const Upload: React.FC = () => {
   return (
     <div className="card">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold mb-2">Get Red Flagged!</h1>
+        <h1 className="text-2xl font-bold mb-2">Get Flagged!</h1>
       </div>
 
       <div className="mb-6">
         <label htmlFor="analyzer-type" className="block text-sm font-medium text-gray-700 mb-2">
-          Choose Analysis Type
+          Assessment Flag 
         </label>
         <select
           id="analyzer-type"
@@ -177,14 +177,16 @@ const Upload: React.FC = () => {
         )}
       </div>
 
-      <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-        <div className="mb-4">
-          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-        </div>
-        <h3 className="text-lg font-medium mb-2">Upload Chat</h3>
-        <p className="text-gray-500 mb-4">drag and drop or select below</p>
+      <div className={`border-2 border-dashed rounded-lg p-8 text-center ${file ? 'bg-purple-500 text-white flex items-center justify-center' : 'border-gray-300'}`}>
+        {!file && (
+          <div className="mb-4">
+            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+        )}
+        <h3 className="text-lg font-medium mb-2">{file ? 'Start' : 'Upload Chat'}</h3>
+        <p className="text-gray-500 mb-4">{file ? '' : 'drag and drop or select below'}</p>
         <input
           type="file"
           accept=".txt"
@@ -192,21 +194,16 @@ const Upload: React.FC = () => {
           className="hidden"
           id="file-upload"
         />
-        <label htmlFor="file-upload" className="btn-primary inline-block cursor-pointer">
-          Select File
-        </label>
+        {!file && (
+          <label htmlFor="file-upload" className="btn-primary inline-block cursor-pointer">
+            Select File
+          </label>
+        )}
       </div>
 
       {file && (
         <div className="mt-4">
           <p className="text-sm text-gray-600">Selected file: {file.name}</p>
-          <button
-            onClick={handleUpload}
-            disabled={isAnalyzing}
-            className="btn-primary mt-2"
-          >
-            {isAnalyzing ? 'Analyzing...' : 'Analyze Chat'}
-          </button>
         </div>
       )}
 
