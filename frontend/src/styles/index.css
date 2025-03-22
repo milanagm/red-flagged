@@ -14,4 +14,8 @@
   .card {
     @apply bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-lg max-w-md w-full mx-auto;
   }
+
+  .top-nav {
+    @apply bg-white/40 backdrop-blur-sm p-4 flex justify-between items-center z-50;
+  }
 }
