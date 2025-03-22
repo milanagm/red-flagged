@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAnalyzers, analyzeChat } from '../services/api';
+import { getAnalyzers, analyzeChat } from '../api_connection/api';
 
 interface AnalysisResult {
   status: string;
@@ -51,7 +51,7 @@ const PrimaryResult: React.FC<{ result: string; type: string }> = ({ result, typ
       const getColor = () => {
         if (level >= 4) return 'text-red-600 bg-red-50';
         if (level >= 3) return 'text-orange-600 bg-orange-50';
-        if (level >= 2) return 'text-yellow-600 bg-yellow-50';
+        if (level >= 2) return 'text-yellow-700 bg-yellow-50';
         return 'text-green-600 bg-green-50';
       };
       return {
@@ -142,7 +142,6 @@ const Upload: React.FC = () => {
       setAnalysisResults(result);
     } catch (error) {
       console.error('Error:', error);
-      // Handle error appropriately
     } finally {
       setIsAnalyzing(false);
     }
@@ -177,7 +176,10 @@ const Upload: React.FC = () => {
         )}
       </div>
 
-      <div className={`border-2 border-dashed rounded-lg p-8 text-center ${file ? 'bg-purple-500 text-white flex items-center justify-center' : 'border-gray-300'}`}>
+      <div
+        className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer ${file ? 'bg-purple-500 text-white flex items-center justify-center' : 'border-gray-300'}`}
+        onClick={file ? handleUpload : undefined}
+      >
         {!file && (
           <div className="mb-4">
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -200,12 +202,6 @@ const Upload: React.FC = () => {
           </label>
         )}
       </div>
-
-      {file && (
-        <div className="mt-4">
-          <p className="text-sm text-gray-600">Selected file: {file.name}</p>
-        </div>
-      )}
 
       {analysisResults && (
         <div className="mt-8 space-y-6">
