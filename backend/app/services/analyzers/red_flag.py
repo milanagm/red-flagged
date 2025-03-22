@@ -1,5 +1,5 @@
 import json
-from typing import List, Dict
+from typing import Dict
 from .base import BaseAnalyzer
 from ..openai_service import OpenAIService
 
@@ -37,9 +37,7 @@ class RedFlagAnalyzer(BaseAnalyzer):
         }
         """
 
-    async def analyze(self, messages: List[Dict]) -> Dict:
-        chat_content = self._format_messages_for_openai(messages)
-
+    async def analyze(self, chat_content: str) -> Dict:
         # Get OpenAI's analysis
         response = self.openai_service.analyze_chat(self.system_prompt, chat_content)
 

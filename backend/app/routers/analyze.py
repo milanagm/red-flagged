@@ -33,6 +33,7 @@ async def analyze_chat(request: ChatAnalysisRequest):
     """
     Analyze chat messages using the specified analyzer
     """
+    print(f"Analyzing chat with analyzer type: {request.analyzer_type}")
     if request.analyzer_type not in ANALYZERS:
         raise HTTPException(
             status_code=400, detail=f"Unknown analyzer type: {request.analyzer_type}"
@@ -43,19 +44,8 @@ async def analyze_chat(request: ChatAnalysisRequest):
         analyzer_class = ANALYZERS[request.analyzer_type]
         analyzer = analyzer_class()
 
-        # Parse messages from the chat content
-        from ..services.chat_parser import ChatParser
-
-        parser = ChatParser()
-        messages = parser.parse_chat(request.chat_content)
-
-        if not messages:
-            raise HTTPException(
-                status_code=400, detail="No valid messages found in the chat content"
-            )
-
         # Perform analysis
-        results = await analyzer.analyze(messages)
+        results = await analyzer.analyze(request.chat_content)
 
         return {"status": "success", "results": results}
 
