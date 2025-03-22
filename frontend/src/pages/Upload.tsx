@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { api } from '../services/api';
+import { getAnalyzers, analyzeChat } from '../services/api';
 
 interface AnalysisResult {
   status: string;
@@ -108,8 +107,8 @@ const Upload: React.FC = () => {
   useEffect(() => {
     const fetchAnalyzers = async () => {
       try {
-        const response = await api.getAnalyzers();
-        setAnalyzers(response.analyzers);
+        const analyzers = await getAnalyzers();
+        setAnalyzers(analyzers);
       } catch (error) {
         console.error('Error fetching analyzers:', error);
       }
@@ -138,12 +137,9 @@ const Upload: React.FC = () => {
       const fileContent = await file.text();
 
       // Get analysis results
-      const analysisResponse = await axios.post('http://localhost:8000/api/analyze', {
-        analyzer_type: analyzerType,
-        chat_content: fileContent,
-      });
+      const result = await analyzeChat(analyzerType, fileContent);
 
-      setAnalysisResults(analysisResponse.data);
+      setAnalysisResults(result);
     } catch (error) {
       console.error('Error:', error);
       // Handle error appropriately

@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = `${BASE_URL}/api`;
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_URL,
+});
 
 interface Analyzer {
   id: string;
@@ -17,19 +23,16 @@ export interface AnalysisResponse {
   results: any; // Type this based on your backend response structure
 }
 
-export const api = {
+// API functions
+export const getAnalyzers = async (): Promise<Analyzer[]> => {
+  const response = await api.get('/analyzers');
+  return response.data.analyzers;
+};
 
-  getAnalyzers: async (): Promise<AnalyzersResponse> => {
-    const response = await axios.get(`${API_BASE_URL}/analyzers`);
-    return response.data;
-  },
-
-  analyzeChat: async (analyzerType: string, chatContent: string[]): Promise<AnalysisResponse> => {
-    const response = await axios.post(`${API_BASE_URL}/analyze`, {
-      analyzer_type: analyzerType,
-      chat_content: chatContent,
-    });
-    console.log(response.data);
-    return response.data;
-  },
+export const analyzeChat = async (analyzerType: string, chatContent: string) => {
+  const response = await api.post('/analyze', {
+    analyzer_type: analyzerType,
+    chat_content: chatContent,
+  });
+  return response.data;
 }; 
