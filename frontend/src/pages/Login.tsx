@@ -15,12 +15,12 @@ const Login: React.FC = () => {
   return (
     <div className="card">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold mb-2">PersonaChat</h1>
-        <p className="text-gray-600">Discover your chat personality</p>
+        <h1 className="text-2xl font-bold mb-2">Red Flag Me</h1>
+        <p className="text-gray-600">Discover your personality </p>
       </div>
 
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Welcome back</h2>
+        <h2 className="text-xl font-semibold mb-2">Welcome :)</h2>
         <p className="text-gray-600">Sign in to your account to continue</p>
       </div>
 

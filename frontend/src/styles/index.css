@@ -12,6 +12,6 @@
   }
 
   .card {
-    @apply bg-white p-8 rounded-lg shadow-card max-w-md w-full mx-auto;
+    @apply bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-auto;
   }
 }
