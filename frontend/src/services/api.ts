@@ -2,10 +2,14 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8000/api';
 
-export interface UploadResponse {
-  status: string;
-  message_count: number;
-  messages: string[];
+interface Analyzer {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface AnalyzersResponse {
+  analyzers: Analyzer[];
 }
 
 export interface AnalysisResponse {
@@ -14,16 +18,9 @@ export interface AnalysisResponse {
 }
 
 export const api = {
-  uploadChat: async (file: File): Promise<UploadResponse> => {
-    const formData = new FormData();
-    formData.append('file', file);
 
-    const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
+  getAnalyzers: async (): Promise<AnalyzersResponse> => {
+    const response = await axios.get(`${API_BASE_URL}/analyzers`);
     return response.data;
   },
 
@@ -32,7 +29,7 @@ export const api = {
       analyzer_type: analyzerType,
       chat_content: chatContent,
     });
-
+    console.log(response.data);
     return response.data;
   },
 }; 

@@ -37,6 +37,7 @@ class HogwartsAnalyzer(BaseAnalyzer):
             return self._create_response(
                 analysis_type="hogwarts",
                 primary_result=result["house"],
+                primary_result_type="house",
                 confidence=result["confidence"],
                 detailed_analysis=result["analysis"],
                 key_indicators=result["key_traits"],

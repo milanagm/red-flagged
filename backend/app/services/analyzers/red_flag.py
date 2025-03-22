@@ -46,6 +46,7 @@ class RedFlagAnalyzer(BaseAnalyzer):
             return self._create_response(
                 analysis_type="red_flag",
                 primary_result=str(result["red_flag_level"]),
+                primary_result_type="red_flag_level",
                 confidence=result["confidence"],
                 detailed_analysis=result["analysis"],
                 key_indicators=result["identified_flags"],

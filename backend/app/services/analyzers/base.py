@@ -27,6 +27,7 @@ class BaseAnalyzer(ABC):
         self,
         analysis_type: str,
         primary_result: str,
+        primary_result_type: str,
         confidence: float,
         detailed_analysis: str,
         key_indicators: List[str],
@@ -35,6 +36,7 @@ class BaseAnalyzer(ABC):
         return {
             "analysis_type": analysis_type,
             "primary_result": primary_result,
+            "primary_result_type": primary_result_type,
             "confidence_score": confidence,
             "detailed_analysis": detailed_analysis,
             "key_indicators": key_indicators,
