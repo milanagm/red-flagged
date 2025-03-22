@@ -31,8 +31,11 @@ const FileUploader = ({ onFileLoaded, isProcessing = false }: FileUploaderProps)
     if (!file) return;
     
     // Check if file is a text file
-    if (file.type !== "text/plain" && !file.name.endsWith(".txt")) {
-      toast.error("Please upload a .txt file");
+    const textTypes = ['text/plain', 'text/csv', 'text/html', 'text/xml', 'application/json'];
+    const isTextFile = textTypes.includes(file.type) || file.name.endsWith('.txt');
+    
+    if (!isTextFile) {
+      toast.error("Please upload a text file (.txt)");
       return;
     }
     
@@ -104,7 +107,7 @@ const FileUploader = ({ onFileLoaded, isProcessing = false }: FileUploaderProps)
         type="file"
         ref={inputRef}
         onChange={handleFileInputChange}
-        accept=".txt"
+        accept=".txt,.csv,.text,text/plain"
         className="sr-only"
         disabled={isProcessing || isReading}
       />
@@ -125,7 +128,7 @@ const FileUploader = ({ onFileLoaded, isProcessing = false }: FileUploaderProps)
           {isProcessing || isReading ? (
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>{isReading ? "Reading file..." : "Analyzing chat..."}</span>
+              <span>{isReading ? "Reading file..." : "Analyzing text..."}</span>
             </div>
           ) : (
             <Button 
