@@ -25,14 +25,38 @@ export interface AnalysisResponse {
 
 // API functions
 export const getAnalyzers = async (): Promise<Analyzer[]> => {
-  const response = await api.get('/analyzers');
-  return response.data.analyzers;
+  try {
+    const response = await api.get('/analyzers');
+    return response.data.analyzers;
+  } catch (error) {
+    console.error('Error fetching analyzers:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('API Error details:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        headers: error.response?.headers,
+      });
+    }
+    throw error;
+  }
 };
 
 export const analyzeChat = async (analyzerType: string, chatContent: string) => {
-  const response = await api.post('/analyze', {
-    analyzer_type: analyzerType,
-    chat_content: chatContent,
-  });
-  return response.data;
+  try {
+    const response = await api.post('/analyze', {
+      analyzer_type: analyzerType,
+      chat_content: chatContent,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error analyzing chat:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('API Error details:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        headers: error.response?.headers,
+      });
+    }
+    throw error;
+  }
 }; 
