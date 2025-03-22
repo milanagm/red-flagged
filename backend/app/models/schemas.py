@@ -3,12 +3,6 @@ from typing import List
 from datetime import datetime
 
 
-class Message(BaseModel):
-    timestamp: str
-    sender: str
-    content: str
-
-
 class ChatAnalysisRequest(BaseModel):
     chat_content: str
     analyzer_type: str

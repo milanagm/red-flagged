@@ -13,24 +13,15 @@ class BaseAnalyzer(ABC):
         pass
 
     @abstractmethod
-    async def analyze(self, messages: List[Dict]) -> Dict:
+    async def analyze(self, chat_content: str) -> Dict:
         """
         Analyze the chat messages and return results
         Args:
-            messages: List of message dictionaries with timestamp, sender, and content
+            chat_content: The chat content to analyze
         Returns:
             Dictionary containing analysis results
         """
         pass
-
-    def _format_messages_for_openai(self, messages: List[Dict]) -> str:
-        """Format messages into a single string for OpenAI"""
-        formatted_messages = []
-        for msg in messages:
-            formatted_messages.append(
-                f"[{msg['timestamp']}] {msg['sender']}: {msg['content']}"
-            )
-        return "\n".join(formatted_messages)
 
     def _create_response(
         self,

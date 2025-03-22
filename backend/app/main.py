@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import upload, analyze
+from .routers import analyze
 
 app = FastAPI(
     title="WhatsApp Chat Analyzer",
@@ -18,7 +18,6 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(upload.router, prefix="/api", tags=["upload"])
 app.include_router(analyze.router, prefix="/api", tags=["analysis"])
 
 
