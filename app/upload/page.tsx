@@ -103,7 +103,7 @@ const Upload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
-  const [analyzerType, setAnalyzerType] = useState<'hogwarts' | 'red_flag'>('hogwarts');
+  const [analyzerType, setAnalyzerType] = useState<'hogwarts' | 'red_flag' | 'boomer'>('hogwarts');
   const [analyzers, setAnalyzers] = useState<Analyzer[]>([]);
 
   useEffect(() => {
@@ -129,7 +129,7 @@ const Upload: React.FC = () => {
   };
 
   const handleAnalyzerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setAnalyzerType(event.target.value as 'hogwarts' | 'red_flag');
+    setAnalyzerType(event.target.value as 'hogwarts' | 'red_flag' | 'boomer');
   };
 
   const handleUpload = async () => {
