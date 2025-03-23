@@ -23,22 +23,28 @@ class BaseAnalyzer(ABC):
         """
         pass
 
-    def _create_response(
+    def _create_dual_response(
         self,
         analysis_type: str,
-        primary_result: str,
-        primary_result_type: str,
-        confidence: float,
-        detailed_analysis: str,
-        key_indicators: List[str],
+        name_person_1: str,
+        name_person_2: str,
+        result_1: str,
+        result_2: str,
+        analysis_1: str,
+        analysis_2: str,
+        indicators_1: List[str],
+        indicators_2: List[str],
     ) -> Dict:
-        """Create a standardized response format"""
+        """Create a standardized response format for dual-person analysis"""
         return {
             "analysis_type": analysis_type,
-            "primary_result": primary_result,
-            "primary_result_type": primary_result_type,
-            "confidence_score": confidence,
-            "detailed_analysis": detailed_analysis,
-            "key_indicators": key_indicators,
+            "name_person_1": name_person_1,
+            "name_person_2": name_person_2,
+            "result_1": result_1,
+            "result_2": result_2,
+            "analysis_1": analysis_1,
+            "analysis_2": analysis_2,
+            "indicators_1": indicators_1,
+            "indicators_2": indicators_2,
             "timestamp": datetime.utcnow().isoformat(),
         }

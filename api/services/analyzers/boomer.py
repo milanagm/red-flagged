@@ -35,11 +35,15 @@ class BoomerAnalyzer(BaseAnalyzer):
         
         You must respond with a valid JSON object containing these exact fields:
         {
-            "boomer_level": int between 0 and 5,
-            "confidence": float between 0 and 1,
-            "analysis": "Detailed explanation of the boomer vibes or lack thereof",
-            "boomer_traits": ["List of specific or not boomer indicators observed"]
-        }
+            "name_person_1: name of the first person in the chat,
+            "name_person_2: name of the second person in the chat,
+            "boomer_level_1: int between 0 and 5,
+            "analysis_1": "Detailed explanation of the boomer vibes or lack thereof",
+            "boomer_traits_1": ["List of specific or not boomer indicators observed"],
+            "boomer_level_2: int between 0 and 5,
+            "analysis_2": "Detailed explanation of the boomer vibes or lack thereof",
+            "boomer_traits_2": ["List of specific or not boomer indicators observed"],
+        }  
         """
 
     async def analyze(self, chat_content: str) -> Dict:
@@ -48,13 +52,17 @@ class BoomerAnalyzer(BaseAnalyzer):
 
         try:
             result = json.loads(response)
-            return self._create_response(
+            print(result)
+            return self._create_dual_response(
                 analysis_type="boomer",
-                primary_result=str(result["boomer_level"]),
-                primary_result_type="boomer_level",
-                confidence=result["confidence"],
-                detailed_analysis=result["analysis"],
-                key_indicators=result["boomer_traits"],
+                name_person_1=result["name_person_1"],
+                name_person_2=result["name_person_2"],
+                result_1=str(result["boomer_level_1"]),
+                result_2=str(result["boomer_level_2"]),
+                analysis_1=result["analysis_1"],
+                analysis_2=result["analysis_2"],
+                indicators_1=result["boomer_traits_1"],
+                indicators_2=result["boomer_traits_2"],
             )
         except json.JSONDecodeError as e:
             raise ValueError(f"Failed to parse OpenAI response: {str(e)}")

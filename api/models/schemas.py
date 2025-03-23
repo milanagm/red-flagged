@@ -10,10 +10,14 @@ class ChatAnalysisRequest(BaseModel):
 
 class AnalysisResult(BaseModel):
     analysis_type: str
-    primary_result: str
-    confidence_score: float
-    detailed_analysis: str
-    key_indicators: List[str]
+    name_person_1: str
+    name_person_2: str
+    result_1: str
+    result_2: str
+    analysis_1: str
+    analysis_2: str
+    indicators_1: List[str]
+    indicators_2: List[str]
     timestamp: datetime
 
 
