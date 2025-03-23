@@ -1,11 +1,8 @@
-let API_BASE_URL = "https://red-flagged-three.vercel.app"
-if (process.env.NODE_ENV === "development") {
-  API_BASE_URL = "http://localhost:8000"
-}
+
 
 export async function getAnalyzers() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/analyzers`)
+    const response = await fetch(`/api/py/analyzers`)
     if (!response.ok) {
       const error = await response.text()
       throw new Error(`Failed to fetch analyzers: ${error}`)
@@ -20,7 +17,7 @@ export async function getAnalyzers() {
 
 export async function analyzeChat(analyzerType: string, chatContent: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/analyze`, {
+    const response = await fetch(`/api/py/analyze`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

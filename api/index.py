@@ -1,6 +1,9 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from .routers import analyze
+from fastapi import FastAPI, HTTPException
+from .models.schemas import ChatAnalysisRequest, AnalysisResponse
+from .services.analyzers.hogwarts import HogwartsAnalyzer
+from .services.analyzers.red_flag import RedFlagAnalyzer
+
+ANALYZERS = {"hogwarts": HogwartsAnalyzer, "red_flag": RedFlagAnalyzer}
 
 app = FastAPI(
     title="Red Flag Me",
@@ -8,26 +11,52 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# CORS middleware configuration
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow Next.js development server
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
-# Include router
-app.include_router(analyze.router)
-
-
-@app.get("/health")
+@app.get("/api/py/health")
 async def health_check():
     """Health check endpoint"""
     return {"status": "healthy"}
 
 
-if __name__ == "__main__":
-    import uvicorn
+@app.get("/api/py/analyzers")
+async def list_analyzers():
+    """List available analyzers"""
+    return {
+        "analyzers": [
+            {
+                "id": "hogwarts",
+                "name": "Hogwarts House Sorting",
+                "description": "Assess your Hogwarts house",
+            },
+            {
+                "id": "red_flag",
+                "name": "Red Flag Analysis",
+                "description": "Analyze your red flags",
+            },
+        ]
+    }
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+@app.post("/api/py/analyze", response_model=AnalysisResponse)
+async def analyze_chat(request: ChatAnalysisRequest):
+    """
+    Analyze chat messages using the specified analyzer
+    """
+    print(f"Analyzing chat with analyzer type: {request.analyzer_type}")
+    if request.analyzer_type not in ANALYZERS:
+        raise HTTPException(
+            status_code=400, detail=f"Unknown analyzer type: {request.analyzer_type}"
+        )
+
+    try:
+        # Create analyzer instance
+        analyzer_class = ANALYZERS[request.analyzer_type]
+        analyzer = analyzer_class()
+
+        # Perform analysis
+        results = await analyzer.analyze(request.chat_content)
+
+        return {"status": "success", "results": results}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
