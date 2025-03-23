@@ -7,7 +7,7 @@ from .services.analyzers.boomer import BoomerAnalyzer
 ANALYZERS = {
     "hogwarts": HogwartsAnalyzer,
     "red_flag": RedFlagAnalyzer,
-    "boomer": BoomerAnalyzer
+    "boomer": BoomerAnalyzer,
 }
 
 app = FastAPI(

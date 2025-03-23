@@ -38,7 +38,7 @@ class BoomerAnalyzer(BaseAnalyzer):
             "boomer_level": int between 0 and 5,
             "confidence": float between 0 and 1,
             "analysis": "Detailed explanation of the boomer vibes or lack thereof",
-            "boomer_traits": ["List of specific boomer indicators observed"]
+            "boomer_traits": ["List of specific or not boomer indicators observed"]
         }
         """
 
@@ -57,4 +57,4 @@ class BoomerAnalyzer(BaseAnalyzer):
                 key_indicators=result["boomer_traits"],
             )
         except json.JSONDecodeError as e:
-            raise ValueError(f"Failed to parse OpenAI response: {str(e)}") 
+            raise ValueError(f"Failed to parse OpenAI response: {str(e)}")
