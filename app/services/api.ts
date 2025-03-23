@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "development") {
 
 export async function getAnalyzers() {
   try {
-    const response = await fetch(`${API_BASE_URL}/analyzers`)
+    const response = await fetch(`${API_BASE_URL}/api/analyzers`)
     if (!response.ok) {
       const error = await response.text()
       throw new Error(`Failed to fetch analyzers: ${error}`)
@@ -20,7 +20,7 @@ export async function getAnalyzers() {
 
 export async function analyzeChat(analyzerType: string, chatContent: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/analyze`, {
+    const response = await fetch(`${API_BASE_URL}/api/analyze`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
