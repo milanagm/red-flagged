@@ -2,8 +2,13 @@ from fastapi import FastAPI, HTTPException
 from .models.schemas import ChatAnalysisRequest, AnalysisResponse
 from .services.analyzers.hogwarts import HogwartsAnalyzer
 from .services.analyzers.red_flag import RedFlagAnalyzer
+from .services.analyzers.boomer import BoomerAnalyzer
 
-ANALYZERS = {"hogwarts": HogwartsAnalyzer, "red_flag": RedFlagAnalyzer}
+ANALYZERS = {
+    "hogwarts": HogwartsAnalyzer,
+    "red_flag": RedFlagAnalyzer,
+    "boomer": BoomerAnalyzer
+}
 
 app = FastAPI(
     title="Red Flag Me",
@@ -32,6 +37,11 @@ async def list_analyzers():
                 "id": "red_flag",
                 "name": "Red Flag Analysis",
                 "description": "Analyze your red flags",
+            },
+            {
+                "id": "boomer",
+                "name": "Boomer Energy Check",
+                "description": "Analyze your boomer vibes and energy level",
             },
         ]
     }
