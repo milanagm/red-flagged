@@ -89,9 +89,9 @@ const PrimaryResult: React.FC<{ result: string; type: string }> = ({ result, typ
 
   return (
     <div className="text-center mb-8">
-      <div className="inline-block bg-white rounded-xl shadow-md p-6">
-        <h3 className="text-xl font-semibold text-gray-800 mb-3">{display.title}</h3>
-        <div className={`text-5xl font-bold px-8 py-4 rounded-lg ${display.className}`}>
+      <div className="inline-block bg-white rounded-xl shadow-md p-4 sm:p-6">
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3">{display.title}</h3>
+        <div className={`text-3xl sm:text-5xl font-bold px-4 sm:px-8 py-2 sm:py-4 rounded-lg ${display.className}`}>
           {display.value}
         </div>
       </div>
