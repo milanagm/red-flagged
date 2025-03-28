@@ -11,7 +11,7 @@ class RedFlagAnalyzer(BaseAnalyzer):
 
     def _get_system_prompt(self) -> str:
         return """You are an expert in analyzing communication patterns and behavioral red flags in conversations.
-        Based on the chat messages provided, analyze the communication for potential red flags or concerning patterns.
+        Based on the chat messages provided, analyze both people's communication for potential red flags or concerning patterns.
         Consider factors like:
         - Respect for boundaries
         - Communication style
@@ -30,10 +30,14 @@ class RedFlagAnalyzer(BaseAnalyzer):
         
         You must respond with a valid JSON object containing these exact fields:
         {
-            "red_flag_level": int between 0 and 5,
-            "confidence": float between 0 and 1,
-            "analysis": "Detailed explanation of the red flags or lack thereof",
-            "identified_flags": ["List of specific red flags or concerning patterns observed"]
+            "name_person_1": "Name of first person",
+            "name_person_2": "Name of second person",
+            "red_flag_level_1": int between 0 and 5,
+            "red_flag_level_2": int between 0 and 5,
+            "analysis_1": "Detailed explanation of the red flags or lack thereof for person 1",
+            "analysis_2": "Detailed explanation of the red flags or lack thereof for person 2",
+            "identified_flags_1": ["List of specific red flags or concerning patterns observed for person 1"],
+            "identified_flags_2": ["List of specific red flags or concerning patterns observed for person 2"]
         }
         """
 
@@ -43,13 +47,16 @@ class RedFlagAnalyzer(BaseAnalyzer):
 
         try:
             result = json.loads(response)
-            return self._create_response(
+            return self._create_dual_response(
                 analysis_type="red_flag",
-                primary_result=str(result["red_flag_level"]),
-                primary_result_type="red_flag_level",
-                confidence=result["confidence"],
-                detailed_analysis=result["analysis"],
-                key_indicators=result["identified_flags"],
+                name_person_1=result["name_person_1"],
+                name_person_2=result["name_person_2"],
+                result_1=str(result["red_flag_level_1"]),
+                result_2=str(result["red_flag_level_2"]),
+                analysis_1=result["analysis_1"],
+                analysis_2=result["analysis_2"],
+                indicators_1=result["identified_flags_1"],
+                indicators_2=result["identified_flags_2"],
             )
         except json.JSONDecodeError as e:
             raise ValueError(f"Failed to parse OpenAI response: {str(e)}")

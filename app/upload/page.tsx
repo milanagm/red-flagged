@@ -7,11 +7,14 @@ interface AnalysisResult {
   status: string;
   results: {
     analysis_type: string;
-    primary_result: string;
-    primary_result_type: string;
-    confidence_score: number;
-    detailed_analysis: string;
-    key_indicators: string[];
+    name_person_1: string;
+    name_person_2: string;
+    result_1: string;
+    result_2: string;
+    analysis_1: string;
+    analysis_2: string;
+    indicators_1: string[];
+    indicators_2: string[];
     timestamp: string;
   };
 }
@@ -46,8 +49,8 @@ const ConfidenceBar: React.FC<{ score: number }> = ({ score }) => {
   );
 };
 
-const PrimaryResult: React.FC<{ result: string; type: string }> = ({ result, type }) => {
-  const getResultDisplay = () => {
+const PrimaryResult: React.FC<{ result1: string; result2: string; type: string; name1: string; name2: string }> = ({ result1, result2, type, name1, name2 }) => {
+  const getResultDisplay = (result: string) => {
     if (type === 'red_flag') {
       const level = parseInt(result);
       const getColor = () => {
@@ -59,7 +62,8 @@ const PrimaryResult: React.FC<{ result: string; type: string }> = ({ result, typ
       return {
         title: 'Red Flag Level',
         value: `${level}/5`,
-        className: getColor()
+        className: getColor(),
+        isHouse: false
       };
     }
     if (type === 'hogwarts') {
@@ -75,24 +79,52 @@ const PrimaryResult: React.FC<{ result: string; type: string }> = ({ result, typ
       return {
         title: 'Hogwarts House',
         value: result,
-        className: getHouseColors()
+        className: getHouseColors(),
+        isHouse: true
+      };
+    }
+    if (type === 'boomer') {
+      const level = parseInt(result);
+      const getColor = () => {
+        if (level >= 4) return 'text-purple-600 bg-purple-50';
+        if (level >= 3) return 'text-blue-600 bg-blue-50';
+        if (level >= 2) return 'text-indigo-600 bg-indigo-50';
+        return 'text-green-600 bg-green-50';
+      };
+      return {
+        title: 'Boomer Level',
+        value: `${level}/5`,
+        className: getColor(),
+        isHouse: false
       };
     }
     return {
       title: type,
       value: result,
-      className: 'text-gray-700 bg-gray-50'
+      className: 'text-gray-700 bg-gray-50',
+      isHouse: false
     };
   };
 
-  const display = getResultDisplay();
+  const display1 = getResultDisplay(result1);
+  const display2 = getResultDisplay(result2);
 
   return (
-    <div className="text-center mb-8">
-      <div className="inline-block bg-white rounded-xl shadow-md p-6">
-        <h3 className="text-xl font-semibold text-gray-800 mb-3">{display.title}</h3>
-        <div className={`text-5xl font-bold px-8 py-4 rounded-lg ${display.className}`}>
-          {display.value}
+    <div className="grid grid-cols-2 gap-4 mb-8">
+      <div className="text-center">
+        <div className="inline-block bg-white rounded-xl shadow-md p-4 sm:p-6 w-full">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">{name1}</h3>
+          <div className={`${display1.isHouse ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-4xl'} font-bold px-4 py-2 rounded-lg ${display1.className}`}>
+            {display1.value}
+          </div>
+        </div>
+      </div>
+      <div className="text-center">
+        <div className="inline-block bg-white rounded-xl shadow-md p-4 sm:p-6 w-full">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">{name2}</h3>
+          <div className={`${display2.isHouse ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-4xl'} font-bold px-4 py-2 rounded-lg ${display2.className}`}>
+            {display2.value}
+          </div>
         </div>
       </div>
     </div>
@@ -103,7 +135,7 @@ const Upload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
-  const [analyzerType, setAnalyzerType] = useState<'hogwarts' | 'red_flag'>('hogwarts');
+  const [analyzerType, setAnalyzerType] = useState<'hogwarts' | 'red_flag' | 'boomer'>('hogwarts');
   const [analyzers, setAnalyzers] = useState<Analyzer[]>([]);
 
   useEffect(() => {
@@ -129,7 +161,7 @@ const Upload: React.FC = () => {
   };
 
   const handleAnalyzerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setAnalyzerType(event.target.value as 'hogwarts' | 'red_flag');
+    setAnalyzerType(event.target.value as 'hogwarts' | 'red_flag' | 'boomer');
   };
 
   const handleUpload = async () => {
@@ -225,34 +257,43 @@ const Upload: React.FC = () => {
           <h3 className="text-2xl font-bold mb-6 text-gray-800">Analysis Results</h3>
           
           <PrimaryResult 
-            result={analysisResults.results.primary_result}
+            result1={analysisResults.results.result_1}
+            result2={analysisResults.results.result_2}
             type={analysisResults.results.analysis_type}
+            name1={analysisResults.results.name_person_1}
+            name2={analysisResults.results.name_person_2}
           />
 
-          <ResultCard title="Overall Assessment">
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-600">Confidence Score</span>
-                <span className="font-semibold">{(analysisResults.results.confidence_score * 100).toFixed(0)}%</span>
-              </div>
-              <ConfidenceBar score={analysisResults.results.confidence_score} />
-            </div>
-            <p className="text-gray-700 leading-relaxed">
-              {analysisResults.results.detailed_analysis}
+          <ResultCard title={`Analysis for ${analysisResults.results.name_person_1}`}>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              {analysisResults.results.analysis_1}
             </p>
-          </ResultCard>
-
-          <ResultCard title="Key Indicators">
-            <ul className="space-y-3">
-              {analysisResults.results.key_indicators.map((indicator, index) => (
-                <li key={index} className="flex items-start">
+            <div className="space-y-3">
+              {analysisResults.results.indicators_1.map((indicator, index) => (
+                <div key={index} className="flex items-start">
                   <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-600 mr-3 flex-shrink-0 text-sm">
                     {index + 1}
                   </span>
                   <span className="text-gray-700">{indicator}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
+          </ResultCard>
+
+          <ResultCard title={`Analysis for ${analysisResults.results.name_person_2}`}>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              {analysisResults.results.analysis_2}
+            </p>
+            <div className="space-y-3">
+              {analysisResults.results.indicators_2.map((indicator, index) => (
+                <div key={index} className="flex items-start">
+                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-600 mr-3 flex-shrink-0 text-sm">
+                    {index + 1}
+                  </span>
+                  <span className="text-gray-700">{indicator}</span>
+                </div>
+              ))}
+            </div>
           </ResultCard>
 
           <ResultCard title="Analysis Details">
@@ -279,6 +320,7 @@ const Upload: React.FC = () => {
           <li>Tap the three dots (⋮) in the top right corner</li>
           <li>Select "More" → "Export chat"</li>
           <li>Choose "Without media" for best results</li>
+          <li> If on a laptop, unzi</li>
         </ol>
       </div>
     </div>
